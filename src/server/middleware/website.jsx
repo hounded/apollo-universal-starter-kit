@@ -14,7 +14,6 @@ import fs from 'fs';
 import path from 'path';
 import Helmet from 'react-helmet';
 import url from 'url';
-import { CookiesProvider } from 'react-cookie';
 import { AppRegistry } from 'react-native';
 
 import createApolloClient from '../../common/createApolloClient';
@@ -36,6 +35,7 @@ async function renderServerSide(req, res) {
   //   networkInterface = addPersistedQueries(networkInterface, queryMap);
   // }
   //
+  global.__COOKIES__ = req.headers.cookie;
 
   const fetch = createApolloFetch({ uri: apiUrl, constructOptions: modules.constructFetchOptions });
   fetch.batchUse(({ options }, next) => {
@@ -62,15 +62,13 @@ async function renderServerSide(req, res) {
 
   const context = {};
   const App = () => (
-    <CookiesProvider cookies={req.universalCookies}>
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          <StaticRouter location={req.url} context={context}>
-            {Routes}
-          </StaticRouter>
-        </ApolloProvider>
-      </Provider>
-    </CookiesProvider>
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        <StaticRouter location={req.url} context={context}>
+          {Routes}
+        </StaticRouter>
+      </ApolloProvider>
+    </Provider>
   );
 
   AppRegistry.registerComponent('App', () => App);

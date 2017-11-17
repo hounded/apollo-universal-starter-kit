@@ -39,7 +39,8 @@
     "__SERVER__": true,
     "__SSR__": true,
     "__PERSIST_GQL__": true,
-    "__BACKEND_URL__": true
+    "__BACKEND_URL__": true,
+    "__COOKIES__": true
   },
   "plugins": ["react", "json", "prettier", "flowtype"]
 }

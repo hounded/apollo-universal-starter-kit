@@ -11,7 +11,6 @@ import { combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { graphql, print, getOperationAST } from 'graphql';
 
-import { CookiesProvider } from 'react-cookie';
 import { Provider } from 'react-redux';
 
 import rootSchema from '../../server/api/rootSchema.graphqls';
@@ -173,11 +172,9 @@ export default class Renderer {
     const { store, client } = this;
 
     return (
-      <CookiesProvider>
-        <Provider store={store}>
-          <ApolloProvider client={client}>{component}</ApolloProvider>
-        </Provider>
-      </CookiesProvider>
+      <Provider store={store}>
+        <ApolloProvider client={client}>{component}</ApolloProvider>
+      </Provider>
     );
   }
 
